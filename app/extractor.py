@@ -10,12 +10,18 @@ UPLOAD_DIR = "uploads"
 
 def extract_pdf_text(file_path):
     doc = fitz.open(file_path)
-    text = ""
 
-    for page in doc:
-        text += page.get_text()
+    full_text = ""
 
-    return text
+    for page_num in range(len(doc)):
+        page = doc[page_num]
+
+        text = page.get_text("text")
+
+        if text:
+            full_text += text + "\n"
+
+    return full_text
 
 
 def extract_pdf_images(file_path):

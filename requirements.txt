@@ -18,3 +18,4 @@ tavily-python
 python-multipart
 reportlab
 python-dotenv
+langchain-text-splitters

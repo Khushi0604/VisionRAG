@@ -1,5 +1,5 @@
 import os
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from app.extractor import (
     extract_pdf_text,
     extract_pdf_images,
@@ -35,21 +35,23 @@ async def process_uploaded_file(file):
 
     if file.filename.endswith(".pdf"):
         text = extract_pdf_text(file_path)
-
+        print("EXTRACTED PDF TEXT:")
+        print(text[:3000])
+        
         images = extract_pdf_images(file_path)
 
         for image in images:
             ocr_text = perform_ocr(image)
-            vision_text = analyze_image(image)
+            #vision_text = analyze_image(image)
 
             image_analysis.append({
                 "image": image,
                 "ocr": ocr_text,
-                "vision": vision_text
+                #"vision": vision_text
             })
 
             text += "\n" + ocr_text
-            text += "\n" + vision_text
+            #text += "\n" + vision_text
 
     elif file.filename.endswith(".docx"):
         text = extract_docx_text(file_path)
