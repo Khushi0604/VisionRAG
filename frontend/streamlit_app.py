@@ -6,12 +6,15 @@ st.set_page_config(page_title="VisionRAG", layout="wide")
 st.title("VisionRAG")
 st.subheader("Advanced Multimodal RAG System")
 
+if "uploaded" not in st.session_state:
+    st.session_state.uploaded = False
+
 uploaded_file = st.file_uploader(
     "Upload PDF, DOCX, CSV, Images",
     type=["pdf", "docx", "csv", "png", "jpg", "jpeg"]
 )
 
-if uploaded_file is not None:
+if uploaded_file is not None and not st.session_state.uploaded:
 
     with st.spinner("Uploading and processing file..."):
 
@@ -27,6 +30,8 @@ if uploaded_file is not None:
         )
 
     if response.status_code == 200:
+
+        st.session_state.uploaded = True
 
         data = response.json()
 
